@@ -1,0 +1,875 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://gramps-project.github.io/gramps-webapi/Deployment/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.2">
+    
+    
+      
+        <title>Deployment - Gramps Web API</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.24c991ad.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#795649">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="brown" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deploying-with-docker" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Gramps Web API" class="md-header__button md-logo" aria-label="Gramps Web API" data-md-component="logo">
+      
+  <img src="../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Gramps Web API
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/gramps-project/gramps-webapi/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link md-tabs__link--active">
+        Getting Started
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../api/" class="md-tabs__link">
+      API specification
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../Development-instructions/" class="md-tabs__link">
+        Developer Guide
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Gramps Web API" class="md-nav__button md-logo" aria-label="Gramps Web API" data-md-component="logo">
+      
+  <img src="../logo.svg" alt="logo">
+
+    </a>
+    Gramps Web API
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/gramps-project/gramps-webapi/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Testing/" class="md-nav__link">
+        Testing locally
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Configuration/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Deployment
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-upload-gramps-database" class="md-nav__link">
+    Step 1: Upload Gramps database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-upload-media-files" class="md-nav__link">
+    Step 2: Upload media files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-a-configuration-file" class="md-nav__link">
+    Step 3: Create a configuration file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-docker-configuration" class="md-nav__link">
+    Step 4: Docker configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-secure-access-with-ssltls" class="md-nav__link">
+    Step 5: Secure access with SSL/TLS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-import-database" class="md-nav__link">
+    Step 6: Import database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-add-users" class="md-nav__link">
+    Step 7: Add users
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-build-the-search-index" class="md-nav__link">
+    Step 8: Build the search index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-start-the-server" class="md-nav__link">
+    Step 9: Start the server
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Users/" class="md-nav__link">
+        User system
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        API specification
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Developer Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Developer Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development-instructions/" class="md-nav__link">
+        Development environment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-upload-gramps-database" class="md-nav__link">
+    Step 1: Upload Gramps database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-upload-media-files" class="md-nav__link">
+    Step 2: Upload media files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-a-configuration-file" class="md-nav__link">
+    Step 3: Create a configuration file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-docker-configuration" class="md-nav__link">
+    Step 4: Docker configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-secure-access-with-ssltls" class="md-nav__link">
+    Step 5: Secure access with SSL/TLS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-import-database" class="md-nav__link">
+    Step 6: Import database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-add-users" class="md-nav__link">
+    Step 7: Add users
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-build-the-search-index" class="md-nav__link">
+    Step 8: Build the search index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-start-the-server" class="md-nav__link">
+    Step 9: Start the server
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/gramps-project/gramps-webapi/blob/master/docs/Deployment.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="deploying-with-docker">Deploying with Docker</h1>
+<p>To deploy your family tree with the Gramps Web API to a server, either on your local network or the internet, the most convenient option is to use Docker. We recommand using Docker Compose and will assume that Docker and Docker Compose are already installed in your system. Your can use Windows, Mac OS, or Linux as a host system. The supported architectures include not only x86-64 (desktop systems), but also ARM systems such as a Raspberry Pi, which can serve as a low-cost, but powerful (enough) web server.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You do not need to install Gramps on the server as it is contained in the docker image.</p>
+</div>
+<h2 id="step-1-upload-gramps-database">Step 1: Upload Gramps database</h2>
+<p>Upload the Gramps database from your computer to the server. This is the directory that shows up before the family tree name when you run <code>gramps -l</code>. We will assume you will put it into the directory <code>~/gramps_db</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This only works if you use Gramps 5.1 locally and the family tree uses SQLite (BSDDB is not supported).</p>
+</div>
+<p>Alternatively, you can upload a Gramps XML export to the server and import it later.</p>
+<h2 id="step-2-upload-media-files">Step 2: Upload media files</h2>
+<p>Upload your media files to the server. Make sure your Gramps database uses relative paths and not absolute paths as these will not work. We will assume the media base directory on your server will be located at <code>~/gramps_media</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use the "Convert media paths from absolute to relative" option in the "Media Manager" tool in Gramps' "Tools" menu if necessary.</p>
+</div>
+<h2 id="step-3-create-a-configuration-file">Step 3: Create a configuration file</h2>
+<p>Create a configuration and upload it to your server (we will assume the path is <code>~/config.cfg</code>). It should contain at least the following lines:</p>
+<div class="highlight"><pre><span></span><code><span class="n">TREE</span><span class="o">=</span><span class="s2">&quot;...&quot;</span>  <span class="c1"># set the name of your family tree</span>
+<span class="n">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;...&quot;</span> <span class="c1"># set your secret key</span>
+<span class="c1"># do not change the following lines as they refer to paths within the container</span>
+<span class="n">USER_DB_URI</span><span class="o">=</span><span class="s2">&quot;sqlite:////app/users/users.sqlite&quot;</span>
+<span class="n">MEDIA_BASE_DIR</span><span class="o">=</span><span class="s2">&quot;/app/media&quot;</span>
+<span class="n">SEARCH_INDEX_DIR</span><span class="o">=</span><span class="s2">&quot;/app/indexdir&quot;</span>
+<span class="n">STATIC_PATH</span><span class="o">=</span><span class="s2">&quot;/app/static&quot;</span>
+</code></pre></div>
+<p>For other configuration options, see <a href="../Configuration/">Configuration</a></p>
+<h2 id="step-4-docker-configuration">Step 4: Docker configuration</h2>
+<p>Create a new file on the server named <code>docker-compose.yml</code> and insert the following contents:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;3.7&quot;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+  <span class="nt">gramps_webapi</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dmstraub/gramps-webapi:latest</span>
+    <span class="nt">restart</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="nt">ports</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;80:5000&quot;</span>
+    <span class="nt">volumes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gramps_users:/app/users</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gramps_index:/app/indexdir</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gramps_thumb_cache:/app/thumbnail_cache</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">~/config.cfg:/app/config/config.cfg</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">~/gramps_db:/root/.gramps/grampsdb</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">~/gramps_media:/app/media</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+  <span class="nt">gramps_users</span><span class="p">:</span>
+  <span class="nt">gramps_index</span><span class="p">:</span>
+  <span class="nt">gramps_thumb_cache</span><span class="p">:</span>
+</code></pre></div>
+<p>This will generate three named volumes to make sure that the user database, search index, and thumbnail cache will persist, and will mount the configuration file, Gramps database directory, and the directory holding your media files into the container (the paths on the left-hand side of the colon <code>:</code> refer to your host machine, the ones on the right hand side to the container and should not be changed).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The above will make the API available on port 80 of the host machine <strong>without SSL/TLS protection</strong>. You can use this for local testing, but do not expose this directly to the internet, it is completely insecure!</p>
+</div>
+<h2 id="step-5-secure-access-with-ssltls">Step 5: Secure access with SSL/TLS</h2>
+<p>The web API <strong>must</strong> be served to the public internet over HTTPS. There are several options, e.g.</p>
+<ul>
+<li>Using docker hosting that includes SSL/TLS automatically</li>
+<li>Using an Nginx Reverse Proxy with a Let's Encrypt certificate</li>
+</ul>
+<p>A particularly convenient option is to use a dockerized Nginx reverse proxy with automated Let's Encrypt certificate generation. This is achieved with the following <code>docker-compose.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;3.7&quot;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+  <span class="nt">gramps_webapi</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dmstraub/gramps-webapi:latest</span>
+    <span class="nt">restart</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="nt">environment</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">VIRTUAL_PORT=5000</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">VIRTUAL_HOST=...</span>  <span class="c1"># e.g. gramps.mydomain.com</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">LETSENCRYPT_HOST=...</span>   <span class="c1"># e.g. gramps.mydomain.com</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">LETSENCRYPT_EMAIL=...</span>  <span class="c1"># your email</span>
+    <span class="nt">volumes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gramps_users:/app/users</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gramps_index:/app/indexdir</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">gramps_thumb_cache:/app/thumbnail_cache</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">~/config.cfg:/app/config/config.cfg</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">~/gramps_db:/root/.gramps/grampsdb</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">~/gramps_media:/app/media</span>
+    <span class="nt">networks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">proxy-tier</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+
+  <span class="nt">proxy</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginxproxy/nginx-proxy</span>
+    <span class="nt">restart</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="nt">ports</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">80:80</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">443:443</span>
+    <span class="nt">environment</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ENABLE_IPV6=true</span>
+    <span class="nt">volumes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">conf:/etc/nginx/conf.d</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dhparam:/etc/nginx/dhparam</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">certs:/etc/nginx/certs:ro</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">vhost.d:/etc/nginx/vhost.d</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">html:/usr/share/nginx/html</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/var/run/docker.sock:/tmp/docker.sock:ro</span>
+    <span class="nt">networks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">proxy-tier</span>
+
+  <span class="nt">acme-companion</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginxproxy/acme-companion</span>
+    <span class="nt">container_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nginx-proxy-acme</span>
+    <span class="nt">restart</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span>
+    <span class="nt">volumes_from</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">proxy</span>
+    <span class="nt">volumes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">certs:/etc/nginx/certs:rw</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">acme:/etc/acme.sh</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/var/run/docker.sock:/var/run/docker.sock:ro</span>
+    <span class="nt">networks</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">proxy-tier</span>
+    <span class="nt">depends_on</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">proxy</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+  <span class="nt">acme</span><span class="p">:</span>
+  <span class="nt">certs</span><span class="p">:</span>
+  <span class="nt">conf</span><span class="p">:</span>
+  <span class="nt">dhparam</span><span class="p">:</span>
+  <span class="nt">vhost.d</span><span class="p">:</span>
+  <span class="nt">html</span><span class="p">:</span>
+  <span class="nt">gramps_users</span><span class="p">:</span>
+  <span class="nt">gramps_index</span><span class="p">:</span>
+  <span class="nt">gramps_thumb_cache</span><span class="p">:</span>
+
+<span class="nt">networks</span><span class="p">:</span>
+  <span class="nt">proxy-tier</span><span class="p">:</span>
+</code></pre></div>
+<p>Please see the <a href="https://github.com/nginx-proxy/acme-companion">acme-companion</a> docs for how to set up your domain.</p>
+<h2 id="step-6-import-database">Step 6: Import database</h2>
+<p>If you have copied the Gramps database directory directly in Step 1, you can skip this step.</p>
+<p>If you have uploaded a Gramps XML instead, you need to import it into a new family tree using the Gramps executable inside the docker container. This can be achieved with the command</p>
+<p><div class="highlight"><pre><span></span><code>docker-compose run gramps_webapi <span class="se">\</span>
+    gramps -C <span class="s1">&#39;My family tree&#39;</span> <span class="se">\</span>
+    -i /root/.gramps/grampsdb/my_tree.gramps <span class="se">\</span>
+    --config<span class="o">=</span>database.backend:sqlite <span class="se">\</span>
+    --config<span class="o">=</span>database.path:/root/.gramps/grampsdb
+</code></pre></div>
+where <code>My family tree</code> is the name of the new family tree (must match the setting in the config file) and <code>my_tree.gramps</code> the file name of the Gramps XML export.</p>
+<h2 id="step-7-add-users">Step 7: Add users</h2>
+<p>Initialize the user system by creating an administrator account with the command</p>
+<div class="highlight"><pre><span></span><code>docker-compose run gramps_webapi <span class="se">\</span>
+    python3 -m gramps_webapi user add <span class="se">\</span>
+    --fullname <span class="s1">&#39;My full name&#39;</span> <span class="se">\</span>
+    --email <span class="s1">&#39;my@email&#39;</span> <span class="se">\</span>
+    --role <span class="m">4</span> <span class="se">\</span>
+    my_username my_password
+</code></pre></div>
+<p>See <a href="../Users/">User system</a> for more details and how to add additional users.</p>
+<h2 id="step-8-build-the-search-index">Step 8: Build the search index</h2>
+<p>Build the initial search index by running</p>
+<div class="highlight"><pre><span></span><code>docker-compose run gramps_webapi <span class="se">\</span>
+    python3 -m gramps_webapi search index-full
+</code></pre></div>
+<h2 id="step-9-start-the-server">Step 9: Start the server</h2>
+<p>Run</p>
+<div class="highlight"><pre><span></span><code>docker-compose up -d
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../Configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Configuration
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../Users/" class="md-footer__link md-footer__link--next" aria-label="Next: User system" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              User system
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.e99e714c.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.bc35569b.min.js"></script>
+      
+    
+  </body>
+</html>
